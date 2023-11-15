@@ -1,0 +1,107 @@
+-- Erase the tables if they already exist in the database
+
+DROP TABLE IF EXISTS DEPARTMENT;
+DROP TABLE IF EXISTS CLIENT;
+DROP TABLE IF EXISTS EMPLOYEE;
+DROP TABLE IF EXISTS CUSTOMERSERVICE;
+DROP TABLE IF EXISTS PROVIDER;
+DROP TABLE IF EXISTS PRODUCT;
+DROP TABLE IF EXISTS SELL;
+DROP TABLE IF EXISTS CLIENTSELLPRODUCT;
+DROP TABLE IF EXISTS AVALIATION;
+DROP TABLE IF EXISTS CLIENTAVALIATIONPRODUCT;
+DROP TABLE IF EXISTS MARKETCAMPAIGN;
+DROP TABLE IF EXISTS EXCHANGE;
+
+-- Actually create the tables
+
+CREATE TABLE DEPARTMENT(
+    PRIMARY KEY idDepartment INT,
+    name VARCHAR,
+);
+
+CREATE TABLE CLIENT(
+    PRIMARY KEY NIF INT,
+    name VARCHAR,
+    email VARCHAR,
+    phone VARCHAR,
+    address VARCHAR,
+);
+
+CREATE TABLE EMPLOYEE(
+    PRIMARY KEY NIF INT, 
+    name VARCHAR,
+    address VARCHAR,
+    shift VARCHAR, 
+    manager BOOLEAN,
+    FOREIGN KEY (department) REFERENCES DEPARTMENT(idDepartment),
+)
+
+CREATE TABLE CUSTOMERSERVICE(
+    PRIMARY KEY idCustomerService INT, 
+    urgency INT, 
+    description TEXT, 
+    FOREIGN KEY (client) REFERENCES CLIENT(NIF),
+);
+
+CREATE TABLE PROVIDER(
+    PRIMARY KEY idProvider INT,
+    address VARCHAR,
+    phone VARCHAR, 
+    email VARCHAR,
+    name VARCHAR,
+);
+
+CREATE TABLE PRODUCT(
+    PRIMARY KEY idProduct INT, 
+    price FLOAT,
+    stock INT,
+    material VARCHAR,
+    name VARCHAR,
+    FOREIGN KEY (department) REFERENCES DEPARTMENT(idDepartment),
+    FOREIGN KEY (provider) REFERENCES PROVIDER(idProvider),
+);
+
+CREATE TABLE SELL(
+    PRIMARY KEY idSell INT,
+    price FLOAT, 
+    date DATETIME, 
+    payment_format VARCHAR,
+    FOREIGN KEY (client) REFERENCES CLIENT(idClient),
+    FOREIGN KEY (product) REFERENCES PRODUCT(idProduct),
+);
+
+CREATE TABLE CLIENTSELLPRODUCT(
+    FOREIGN KEY (client) REFERENCES CLIENT(idClient), 
+    FOREIGN KEY (sell) REFERENCES SELL(idSell), 
+    FOREIGN KEY (product) REFERENCES PRODUCT(idProduct),
+);
+
+CREATE TABLE AVALIATION(
+    PRIMARY KEY idAvaliation INT,
+    stars INT,
+    description TEXT,
+    date DATETIME, 
+    FOREIGN KEY (product) REFERENCES PRODUCT(idProduct),
+    FOREIGN KEY (client) REFERENCES CLIENT(idClient),
+);
+
+CREATE TABLE CLIENTAVALIATIONPRODUCT(
+    FOREIGN KEY (client) REFERENCES CLIENT(idClient),
+    FOREIGN KEY (AVALIATION) REFERENCES AVALIATION(idAvaliation),
+    FOREIGN KEY (product) REFERENCES PRODUCT(idProduct),
+);
+
+CREATE TABLE MARKETCAMPAIGN(
+    PRIMARY KEY (idMarketCampaign) INT, 
+    discount FLOAT,
+    channel VARCHAR,
+    FOREIGN KEY (product) REFERENCES PRODUCT(idProduct)
+);
+
+CREATE TABLE EXCHANGE(
+    PRIMARY KEY (idExchange) INT,
+    type INT,
+    date DATETIME,
+    FOREIGN KEY (product) REFERENCES PRODUCT(idProduct),
+);

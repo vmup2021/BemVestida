@@ -1,0 +1,120 @@
+DROP TABLE IF EXISTS DEPARTMENT;
+DROP TABLE IF EXISTS CLIENT;
+DROP TABLE IF EXISTS EMPLOYEE;
+DROP TABLE IF EXISTS CUSTOMERSERVICE;
+DROP TABLE IF EXISTS PROVIDER;
+DROP TABLE IF EXISTS PRODUCT;
+DROP TABLE IF EXISTS SELL;
+DROP TABLE IF EXISTS CLIENTSELLPRODUCT;
+DROP TABLE IF EXISTS AVALIATION;
+DROP TABLE IF EXISTS CLIENTAVALIATIONPRODUCT;
+DROP TABLE IF EXISTS MARKETCAMPAIGN;
+DROP TABLE IF EXISTS EXCHANGE;
+
+
+CREATE TABLE DEPARTMENT(
+    PRIMARY KEY idDepartment INT,
+    name VARCHAR NOT NULL,
+);
+
+CREATE TABLE CLIENT(
+    PRIMARY KEY NIF INT,
+    name VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    address VARCHAR(50) NOT NULL,
+);
+
+CREATE TABLE EMPLOYEE(
+    PRIMARY KEY NIF INT, 
+    name VARCHAR(50) NOT NULL,
+    address VARCHAR(50) NOT NULL,
+    work_shift VARCHAR NOT NULL, 
+    manager BOOLEAN DEFAULT FALSE,
+    department INT,
+    FOREIGN KEY (department) REFERENCES DEPARTMENT(idDepartment),
+)
+
+CREATE TABLE CUSTOMERSERVICE(
+    PRIMARY KEY idCustomerService INT, 
+    urgency INT CHECK (5 > urgency > 0), 
+    description TEXT, 
+    client INT,
+    FOREIGN KEY (client) REFERENCES CLIENT(NIF),
+);
+
+CREATE TABLE PROVIDER(
+    PRIMARY KEY idProvider INT,
+    address VARCHAR(50),
+    phone VARCHAR(20) NOT NULL, 
+    email VARCHAR(50) NOT NULL,
+    name VARCHAR,
+);
+
+CREATE TABLE PRODUCT(
+    PRIMARY KEY idProduct INT, 
+    price FLOAT CHECK (price > 0.0),
+    stock INT CHECK (stock > 0),
+    material VARCHAR,
+    name VARCHAR(50) NOT NULL,
+    department INT, 
+    provider INT,
+    FOREIGN KEY (department) REFERENCES DEPARTMENT(idDepartment),
+    FOREIGN KEY (provider) REFERENCES PROVIDER(idProvider),
+);
+
+CREATE TABLE SELL(
+    PRIMARY KEY idSell INT,
+    price FLOAT CHECK (price > 0.0), 
+    date DATETIME NOT NULL, 
+    payment_format VARCHAR NOT NULL,
+    idClient INT,
+    idProduct INT,
+    FOREIGN KEY (client) REFERENCES CLIENT(idClient),
+    FOREIGN KEY (product) REFERENCES PRODUCT(idProduct),
+);
+
+CREATE TABLE CLIENTSELLPRODUCT(
+    client INT,
+    sell INT,
+    product INT,
+    FOREIGN KEY (client) REFERENCES CLIENT(idClient), 
+    FOREIGN KEY (sell) REFERENCES SELL(idSell), 
+    FOREIGN KEY (product) REFERENCES PRODUCT(idProduct),
+);
+
+CREATE TABLE AVALIATION(
+    PRIMARY KEY idAvaliation INT,
+    stars INT CHECK (5 > stars > 0),
+    description TEXT,
+    date DATETIME NOT NULL, 
+    product INT,
+    client INT,
+    FOREIGN KEY (product) REFERENCES PRODUCT(idProduct),
+    FOREIGN KEY (client) REFERENCES CLIENT(idClient),
+);
+
+CREATE TABLE CLIENTAVALIATIONPRODUCT(
+    client INT,
+    avaliation INT,
+    product INT,
+    FOREIGN KEY (client) REFERENCES CLIENT(idClient),
+    FOREIGN KEY (AVALIATION) REFERENCES AVALIATION(idAvaliation),
+    FOREIGN KEY (product) REFERENCES PRODUCT(idProduct),
+);
+
+CREATE TABLE MARKETCAMPAIGN(
+    PRIMARY KEY (idMarketCampaign) INT, 
+    discount FLOAT CHECK (1.0 > discount AND discount > 0.0),
+    channel VARCHAR,
+    product INT,
+    FOREIGN KEY (product) REFERENCES PRODUCT(idProduct)
+);
+
+CREATE TABLE EXCHANGE(
+    PRIMARY KEY (idExchange) INT,
+    type INT,
+    date DATETIME NOT NULL,
+    product INT,
+    FOREIGN KEY (product) REFERENCES PRODUCT(idProduct),
+);
