@@ -1,0 +1,1 @@
+Project to implement and interrogate a database for the "Base Dados" class of FEUP. To do this, we created the conceptual model, configured this model for a relational system, deployed that schema to a SQLite database, entered the data, and finally interrogated the database. All was done with interactions and refinements with the chat GPT.
