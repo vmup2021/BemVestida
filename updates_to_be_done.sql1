@@ -3,3 +3,23 @@ CREATE TABLE ExampleTable (
     ExampleColumn TEXT UNIQUE,
     -- other columns...
 );
+
+CREATE TABLE ExampleTable (
+    ExampleID INTEGER PRIMARY KEY,
+    ExampleColumn INTEGER CHECK (ExampleColumn > 0),
+    -- other columns...
+);
+
+CREATE TABLE ExampleTable (
+    ExampleID INTEGER PRIMARY KEY,
+    ExampleColumn TEXT DEFAULT 'DefaultValue',
+    -- other columns...
+);
+
+-- Example: Ensure that the sum of Prices in Sells does not exceed a certain value
+CREATE TRIGGER CheckSellsTotal
+BEFORE INSERT ON Sells
+BEGIN
+    SELECT RAISE(ABORT, 'Total exceeds limit')
+    WHERE (SELECT SUM(Price) FROM Sells WHERE NEW.ClientID = ClientID) + NEW.Price > 1000;
+END;
