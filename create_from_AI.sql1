@@ -1,0 +1,112 @@
+-- Drop existing relations if they exist
+DROP TABLE IF EXISTS Exchanges;
+DROP TABLE IF EXISTS Avaliations;
+DROP TABLE IF EXISTS Sells;
+DROP TABLE IF EXISTS CustomerServices;
+DROP TABLE IF EXISTS Clients;
+DROP TABLE IF EXISTS Employees;
+DROP TABLE IF EXISTS Products;
+DROP TABLE IF EXISTS Providers;
+DROP TABLE IF EXISTS Persons;
+DROP TABLE IF EXISTS MarketCampaigns;
+DROP TABLE IF EXISTS Departments;
+
+-- Create Persons table
+CREATE TABLE Persons (
+    PersonID INTEGER PRIMARY KEY,
+    NIF INTEGER,
+    Name TEXT,
+    Address TEXT
+);
+
+-- Create Clients table
+CREATE TABLE Clients (
+    ClientID INTEGER PRIMARY KEY,
+    Phone TEXT,
+    Email TEXT,
+    PersonID INTEGER,
+    FOREIGN KEY (PersonID) REFERENCES Persons(PersonID)
+);
+
+-- Create CustomerServices table
+CREATE TABLE CustomerServices (
+    CustomerServiceID INTEGER PRIMARY KEY,
+    ID INTEGER,
+    Urgency TEXT,
+    Description TEXT
+);
+
+-- Create Sells table
+CREATE TABLE Sells (
+    SellID INTEGER PRIMARY KEY,
+    ID INTEGER,
+    Price REAL,
+    Date DATE,
+    PaymentFormat TEXT,
+    ClientID INTEGER,
+    FOREIGN KEY (ClientID) REFERENCES Clients(ClientID)
+);
+
+-- Create Employees table
+CREATE TABLE Employees (
+    EmployeeID INTEGER PRIMARY KEY,
+    Shift TEXT,
+    PersonID INTEGER,
+    FOREIGN KEY (PersonID) REFERENCES Persons(PersonID)
+);
+
+-- Create Products table
+CREATE TABLE Products (
+    ProductID INTEGER PRIMARY KEY,
+    ID INTEGER,
+    Price REAL,
+    Stock INTEGER,
+    Material TEXT,
+    Name TEXT
+);
+
+-- Create Providers table
+CREATE TABLE Providers (
+    ProviderID INTEGER PRIMARY KEY,
+    ID INTEGER,
+    Address TEXT,
+    Phone TEXT,
+    Email TEXT,
+    Name TEXT
+);
+
+-- Create Avaliations table
+CREATE TABLE Avaliations (
+    AvaliationID INTEGER PRIMARY KEY,
+    ID INTEGER,
+    Stars INTEGER,
+    Description TEXT,
+    Date DATE,
+    ClientID INTEGER,
+    FOREIGN KEY (ClientID) REFERENCES Clients(ClientID)
+);
+
+-- Create Departments table
+CREATE TABLE Departments (
+    DepartmentID INTEGER PRIMARY KEY,
+    ID INTEGER,
+    Name TEXT
+);
+
+-- Create Exchanges table
+CREATE TABLE Exchanges (
+    ExchangeID INTEGER PRIMARY KEY,
+    ID INTEGER,
+    Discount REAL,
+    Channel TEXT,
+    ClientID INTEGER,
+    FOREIGN KEY (ClientID) REFERENCES Clients(ClientID)
+);
+
+-- Create MarketCampaigns table
+CREATE TABLE MarketCampaigns (
+    MarketCampaignID INTEGER PRIMARY KEY,
+    ID INTEGER,
+    Discount REAL,
+    Channel TEXT
+);
