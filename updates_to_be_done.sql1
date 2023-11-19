@@ -1,0 +1,5 @@
+CREATE TABLE ExampleTable (
+    ExampleID INTEGER PRIMARY KEY,
+    ExampleColumn TEXT UNIQUE,
+    -- other columns...
+);
