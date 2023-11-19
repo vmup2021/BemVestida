@@ -1,68 +1,75 @@
--- Enable foreign key constraints
 PRAGMA foreign_keys = ON;
 
--- Insert data into Persons table
-INSERT INTO Persons (PersonID, NIF, Name, Address) VALUES
-    (1, 123456789, 'John Doe', '123 Main St'),
-    (2, 987654321, 'Jane Smith', '456 Oak St');
--- Add more data as needed for other tables
+-- Insert data into Employees Table (R1)
+INSERT INTO Employees (NIF, Name, Address, WorkShift, EmployeeType, DepartmentID)
+VALUES
+    (111, 'John Doe', '123 Main St', 'Day', 'Manager', 1),
+    (222, 'Jane Smith', '456 Oak St', 'Night', 'Employee', 1),
+    (333, 'Bob Johnson', '789 Pine St', 'Day', 'Employee', 2);
 
--- Insert data into Clients table
-INSERT INTO Clients (ClientID, Phone, Email, PersonID) VALUES
-    (1, '555-1234', 'john@example.com', 1),
-    (2, '555-5678', 'jane@example.com', 2);
--- Add more data as needed for other tables
+-- Insert data into Managers Table (R2)
+INSERT INTO Managers (ManagerID, DepartmentManaged)
+VALUES
+    (111, 'Clothing Department'),
+    (444, 'Shoe Department');
 
--- Insert data into CustomerServices table
-INSERT INTO CustomerServices (CustomerServiceID, ID, Urgency, Description) VALUES
-    (1, 101, 'High', 'Product support'),
-    (2, 102, 'Medium', 'Billing inquiry');
--- Add more data as needed for other tables
+-- Insert data into Customers Table (R3)
+INSERT INTO Customers (NIF, Name, ContactDetails)
+VALUES
+    (1111, 'Alice Brown', 'email@example.com'),
+    (2222, 'Charlie Green', 'phone_number');
 
--- Insert data into Sells table
-INSERT INTO Sells (SellID, ID, Price, Date, PaymentFormat, ClientID) VALUES
-    (1, 201, 100.00, '2023-01-01', 'Credit Card', 1),
-    (2, 202, 150.00, '2023-02-01', 'Cash', 2);
--- Add more data as needed for other tables
+-- Insert data into Products Table (R4)
+INSERT INTO Products (ProductID, Price, ProductName, QuantityInStock)
+VALUES
+    (1, 50.0, 'T-Shirt', 100),
+    (2, 80.0, 'Jeans', 50),
+    (3, 30.0, 'Sneakers', 75);
 
--- Insert data into Employees table
-INSERT INTO Employees (EmployeeID, Shift, PersonID) VALUES
-    (1, 'Morning', 1),
-    (2, 'Evening', 2);
--- Add more data as needed for other tables
+-- Insert data into Sales Table (R5)
+INSERT INTO Sales (SaleID, NIF, EmployeeNIF, Price, PaymentMethod, Date)
+VALUES
+    (101, 1111, 222, 50.0, 'Credit Card', '2023-11-19'),
+    (102, 2222, 333, 80.0, 'Cash', '2023-11-20');
 
--- Insert data into Products table
-INSERT INTO Products (ProductID, ID, Price, Stock, Material, Name) VALUES
-    (1, 301, 29.99, 100, 'Metal', 'Widget A'),
-    (2, 302, 49.99, 50, 'Plastic', 'Gadget B');
--- Add more data as needed for other tables
+-- Insert data into Suppliers Table (R6)
+INSERT INTO Suppliers (SupplierID, Name, Address, Number, ContactDetails)
+VALUES
+    (1, 'Fashion Supplier', '789 Supplier St', '123456789', 'supplier@example.com');
 
--- Insert data into Providers table
-INSERT INTO Providers (ProviderID, ID, Address, Phone, Email, Name) VALUES
-    (1, 401, '789 Oak St', '555-4321', 'provider1@example.com', 'Provider X'),
-    (2, 402, '456 Pine St', '555-8765', 'provider2@example.com', 'Provider Y');
--- Add more data as needed for other tables
+-- Insert data into Affiliations Table (R7)
+INSERT INTO Affiliations (AffiliationID, SaleID)
+VALUES
+    (201, 101),
+    (202, 102);
 
--- Insert data into Avaliations table
-INSERT INTO Avaliations (AvaliationID, ID, Stars, Description, Date, ClientID) VALUES
-    (1, 501, 4, 'Great service!', '2023-03-01', 1),
-    (2, 502, 5, 'Excellent product!', '2023-04-01', 2);
--- Add more data as needed for other tables
+-- Insert data into MarketingCampaigns Table (R8)
+INSERT INTO MarketingCampaigns (CampaignID, DiscountPercentage, Channel)
+VALUES
+    (301, 10.0, 'Instagram'),
+    (302, 15.0, 'YouTube');
 
--- Insert data into Departments table
-INSERT INTO Departments (DepartmentID, ID, Name) VALUES
-    (1, 601, 'Sales'),
-    (2, 602, 'Customer Support');
--- Add more data as needed for other tables
+-- Insert data into ProductInCampaigns Table (R9)
+INSERT INTO ProductInCampaigns (CampaignID, ProductID)
+VALUES
+    (301, 1),
+    (302, 2);
 
--- Insert data into Exchanges table
-INSERT INTO Exchanges (ExchangeID, ID, Discount, Channel, ClientID) VALUES
-    (1, 701, 10.00, 'Online', 1),
-    (2, 702, 5.00, 'In-Store', 2);
--- Add more data as needed for other tables
+-- Insert data into SACCalls Table (R10)
+INSERT INTO SACCalls (CallID, Protocol, DegreeOfUrgency, ShortDescription, CustomerNIF)
+VALUES
+    (501, 'ABC123', 'High', 'Product Complaint', 1111),
+    (502, 'XYZ456', 'Low', 'Inquiry', 2222);
 
--- Insert data into MarketCampaigns table
-INSERT INTO MarketCampaigns (MarketCampaignID, ID, Discount, Channel) VALUES
-    (1, 801, 15.00, 'Email'),
-    (2, 802, 20.00, 'Social Media');
--- Add more data as needed for other tables
+-- Insert data into Ratings Table (R11)
+INSERT INTO Ratings (RatingID, ProductID, Stars, Comments)
+VALUES
+    (601, 1, 4, 'Great product!'),
+    (602, 2, 5, 'Perfect fit!');
+
+-- Insert data into Exchanges Table (R12)
+INSERT INTO Exchanges (ExchangeID, OriginalProductID, NewProductID)
+VALUES
+    (701, 1, 3),
+    (702, 2, 1);
+

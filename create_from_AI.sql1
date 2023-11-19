@@ -1,112 +1,117 @@
 -- Drop existing relations if they exist
-DROP TABLE IF EXISTS Exchanges;
-DROP TABLE IF EXISTS Avaliations;
-DROP TABLE IF EXISTS Sells;
-DROP TABLE IF EXISTS CustomerServices;
-DROP TABLE IF EXISTS Clients;
 DROP TABLE IF EXISTS Employees;
+DROP TABLE IF EXISTS Managers;
+DROP TABLE IF EXISTS Customers;
 DROP TABLE IF EXISTS Products;
-DROP TABLE IF EXISTS Providers;
-DROP TABLE IF EXISTS Persons;
-DROP TABLE IF EXISTS MarketCampaigns;
-DROP TABLE IF EXISTS Departments;
+DROP TABLE IF EXISTS Sales;
+DROP TABLE IF EXISTS Suppliers;
+DROP TABLE IF EXISTS Affiliations;
+DROP TABLE IF EXISTS MarketingCampaigns;
+DROP TABLE IF EXISTS ProductInCampaigns;
+DROP TABLE IF EXISTS SACCalls;
+DROP TABLE IF EXISTS Ratings;
+DROP TABLE IF EXISTS Exchanges;
 
--- Create Persons table
-CREATE TABLE Persons (
-    PersonID INTEGER PRIMARY KEY,
-    NIF INTEGER,
-    Name TEXT,
-    Address TEXT
-);
-
--- Create Clients table
-CREATE TABLE Clients (
-    ClientID INTEGER PRIMARY KEY,
-    Phone TEXT,
-    Email TEXT,
-    PersonID INTEGER,
-    FOREIGN KEY (PersonID) REFERENCES Persons(PersonID)
-);
-
--- Create CustomerServices table
-CREATE TABLE CustomerServices (
-    CustomerServiceID INTEGER PRIMARY KEY,
-    ID INTEGER,
-    Urgency TEXT,
-    Description TEXT
-);
-
--- Create Sells table
-CREATE TABLE Sells (
-    SellID INTEGER PRIMARY KEY,
-    ID INTEGER,
-    Price REAL,
-    Date DATE,
-    PaymentFormat TEXT,
-    ClientID INTEGER,
-    FOREIGN KEY (ClientID) REFERENCES Clients(ClientID)
-);
-
--- Create Employees table
+-- Create Employees Table (R1)
 CREATE TABLE Employees (
-    EmployeeID INTEGER PRIMARY KEY,
-    Shift TEXT,
-    PersonID INTEGER,
-    FOREIGN KEY (PersonID) REFERENCES Persons(PersonID)
+    NIF INTEGER PRIMARY KEY,
+    Name TEXT,
+    Address TEXT,
+    WorkShift TEXT,
+    EmployeeType TEXT,
+    DepartmentID INTEGER
 );
 
--- Create Products table
+-- Create Managers Table (R2)
+CREATE TABLE Managers (
+    ManagerID INTEGER PRIMARY KEY,
+    DepartmentManaged TEXT,
+    FOREIGN KEY (ManagerID) REFERENCES Employees(NIF)
+);
+
+-- Create Customers Table (R3)
+CREATE TABLE Customers (
+    NIF INTEGER PRIMARY KEY,
+    Name TEXT,
+    ContactDetails TEXT
+);
+
+-- Create Products Table (R4)
 CREATE TABLE Products (
     ProductID INTEGER PRIMARY KEY,
-    ID INTEGER,
     Price REAL,
-    Stock INTEGER,
-    Material TEXT,
-    Name TEXT
+    ProductName TEXT,
+    QuantityInStock INTEGER
 );
 
--- Create Providers table
-CREATE TABLE Providers (
-    ProviderID INTEGER PRIMARY KEY,
-    ID INTEGER,
-    Address TEXT,
-    Phone TEXT,
-    Email TEXT,
-    Name TEXT
-);
-
--- Create Avaliations table
-CREATE TABLE Avaliations (
-    AvaliationID INTEGER PRIMARY KEY,
-    ID INTEGER,
-    Stars INTEGER,
-    Description TEXT,
+-- Create Sales Table (R5)
+CREATE TABLE Sales (
+    SaleID INTEGER PRIMARY KEY,
+    NIF INTEGER,
+    EmployeeNIF INTEGER,
+    Price REAL,
+    PaymentMethod TEXT,
     Date DATE,
-    ClientID INTEGER,
-    FOREIGN KEY (ClientID) REFERENCES Clients(ClientID)
+    FOREIGN KEY (NIF) REFERENCES Customers(NIF),
+    FOREIGN KEY (EmployeeNIF) REFERENCES Employees(NIF)
 );
 
--- Create Departments table
-CREATE TABLE Departments (
-    DepartmentID INTEGER PRIMARY KEY,
-    ID INTEGER,
-    Name TEXT
+-- Create Suppliers Table (R6)
+CREATE TABLE Suppliers (
+    SupplierID INTEGER PRIMARY KEY,
+    Name TEXT,
+    Address TEXT,
+    Number TEXT,
+    ContactDetails TEXT
 );
 
--- Create Exchanges table
+-- Create Affiliations Table (R7)
+CREATE TABLE Affiliations (
+    AffiliationID INTEGER PRIMARY KEY,
+    SaleID INTEGER,
+    FOREIGN KEY (SaleID) REFERENCES Sales(SaleID)
+);
+
+-- Create MarketingCampaigns Table (R8)
+CREATE TABLE MarketingCampaigns (
+    CampaignID INTEGER PRIMARY KEY,
+    DiscountPercentage REAL,
+    Channel TEXT
+);
+
+-- Create ProductInCampaigns Table (R9)
+CREATE TABLE ProductInCampaigns (
+    CampaignID INTEGER,
+    ProductID INTEGER,
+    PRIMARY KEY (CampaignID, ProductID),
+    FOREIGN KEY (CampaignID) REFERENCES MarketingCampaigns(CampaignID),
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);
+
+-- Create SACCalls Table (R10)
+CREATE TABLE SACCalls (
+    CallID INTEGER PRIMARY KEY,
+    Protocol TEXT,
+    DegreeOfUrgency TEXT,
+    ShortDescription TEXT,
+    CustomerNIF INTEGER,
+    FOREIGN KEY (CustomerNIF) REFERENCES Customers(NIF)
+);
+
+-- Create Ratings Table (R11)
+CREATE TABLE Ratings (
+    RatingID INTEGER PRIMARY KEY,
+    ProductID INTEGER,
+    Stars INTEGER,
+    Comments TEXT,
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);
+
+-- Create Exchanges Table (R12)
 CREATE TABLE Exchanges (
     ExchangeID INTEGER PRIMARY KEY,
-    ID INTEGER,
-    Discount REAL,
-    Channel TEXT,
-    ClientID INTEGER,
-    FOREIGN KEY (ClientID) REFERENCES Clients(ClientID)
-);
-
--- Create MarketCampaigns table
-CREATE TABLE MarketCampaigns (
-    MarketCampaignID INTEGER PRIMARY KEY,
-    ID INTEGER,
-    Discount REAL,
-    Channel TEXT
+    OriginalProductID INTEGER,
+    NewProductID INTEGER,
+    FOREIGN KEY (OriginalProductID) REFERENCES Products(ProductID),
+    FOREIGN KEY (NewProductID) REFERENCES Products(ProductID)
 );
