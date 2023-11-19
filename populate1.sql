@@ -1,3 +1,6 @@
+-- Enable foreign key constraints
+PRAGMA foreign_keys = ON;
+
 --Popular dados na Base de Dados
 -- Inserção de dados aleatórios para a tabela DEPARTMENT
 INSERT INTO DEPARTMENT (idDepartment, name)
