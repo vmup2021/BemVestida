@@ -8,7 +8,7 @@ VALUES
   (1, 'Vendas'), (2, 'Marketing'), (3, 'Tecnologia'),
   (4, 'Financeiro'), (5, 'Recursos Humanos'),
   (6, 'Pesquisa e Desenvolvimento III'), (7, 'Logística'), (8, 'Qualidade'),
-  (9, 'Assistência Técnica'), (10, 'Compras');
+  (9, 'Assistência Técnica'), (10, 'Compras'),
   (11, 'Logística'), (12, 'Marketing Digital'), (13, 'Engenharia'),
   (14, 'Contabilidade'), (15, 'Recursos Humanos'),
   (16, 'Pesquisa e Desenvolvimento'), (17, 'Garantia de Qualidade'), (18, 'Compras'),
@@ -73,7 +73,7 @@ VALUES
   (144, 'Gestão de Projetos Rurais'), (145, 'Treinamento para Agricultores'),
   (146, 'Armazenagem Rural'), (147, 'Controle de Qualidade Agrícola'),
   (148, 'Aquisições Agrícolas'), (149, 'Segurança Rural'),
-  (150, 'Gestão de Relacionamento com o Cliente Rural'),
+  (150, 'Gestão de Relacionamento com o Cliente Rural');  
 -- Inserção de dados aleatórios para a tabela CLIENT
 INSERT INTO CLIENT (NIF, name, email, phone, address)
 VALUES
@@ -86,7 +86,7 @@ VALUES
   (777777777, 'Beatriz Sousa', 'beatriz.sousa@email.pt', '922222222', 'Avenida Principal, 777'),
   (888888888, 'Carlos Pereira', 'carlos.pereira@email.pt', '933333333', 'Rua Alternativa, 888'),
   (999999999, 'Diana Santos', 'diana.santos@email.pt', '944444444', 'Avenida dos Lilases, 999'),
-  (101010101, 'Eduardo Costa', 'eduardo.costa@email.pt', '955555555', 'Rua Nova, 1010');
+  (101010101, 'Eduardo Costa', 'eduardo.costa@email.pt', '955555555', 'Rua Nova, 1010'),
 (112233445, 'José Sousa', 'jose.sousa@email.pt', '912345678', 'Rua Principal, 123'),
   (223344556, 'Inês Pereira', 'ines.pereira@email.pt', '933333333', 'Avenida Central, 456'),
   (334455667, 'Ricardo Almeida', 'ricardo.almeida@email.pt', '945678321', 'Rua Secundária, 789'),
@@ -339,7 +339,7 @@ VALUES
   (42, 1, 'Pedido de suporte técnico', 987654321),
   (43, 2, 'Troca de item com defeito', 111222333),
   (44, 4, 'Atraso na entrega', 444555666),
-  (45, 5, 'Dúvida sobre o produto', 555666777);
+  (45, 5, 'Dúvida sobre o produto', 555666777),
 (46, 3, 'Problema com fatura', 123456789),
   (47, 1, 'Assistência técnica necessária', 987654321),
   (48, 2, 'Troca de item por defeito', 111222333),
@@ -1074,7 +1074,7 @@ VALUES
   (2, 5, 'Serviço impecável!', '2023-02-10', 2, 987654321),
   (3, 3, 'Boa qualidade, mas demorou na entrega', '2023-03-15', 3, 111222333),
   (4, 5, 'Ótimo atendimento!', '2023-04-20', 4, 444555666),
-  (5, 4, 'Produto atendeu às expectativas', '2023-05-25', 5, 555666777);
+  (5, 4, 'Produto atendeu às expectativas', '2023-05-25', 5, 555666777),
   (6, 4, 'Bom atendimento, mas o produto poderia ser melhor', '2023-06-01', 6, 6),
   (7, 3, 'Produto com boa relação qualidade-preço', '2023-07-01', 7, 7),
   (8, 5, 'Entrega rápida e produto de qualidade', '2023-08-01', 8, 8),

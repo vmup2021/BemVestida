@@ -33,7 +33,7 @@ VALUES
     (102, 2222, 333, 80.0, 'Cash', '2023-11-20');
 
 -- Insert data into Suppliers Table (R6)
-INSERT INTO Suppliers (SupplierID, Name, Address, Number, ContactDetails)
+INSERT INTO Suppliers (SupplierID, Name, Address, Number, Contact   Details)
 VALUES
     (1, 'Fashion Supplier', '789 Supplier St', '123456789', 'supplier@example.com');
 
@@ -72,4 +72,3 @@ INSERT INTO Exchanges (ExchangeID, OriginalProductID, NewProductID)
 VALUES
     (701, 1, 3),
     (702, 2, 1);
-

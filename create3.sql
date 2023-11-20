@@ -1,3 +1,4 @@
+-- Erase the tables if they already exist in the database
 DROP TABLE IF EXISTS DEPARTMENT;
 DROP TABLE IF EXISTS CLIENT;
 DROP TABLE IF EXISTS EMPLOYEE;
@@ -11,48 +12,49 @@ DROP TABLE IF EXISTS CLIENTAVALIATIONPRODUCT;
 DROP TABLE IF EXISTS MARKETCAMPAIGN;
 DROP TABLE IF EXISTS EXCHANGE;
 
+-- Actually create the tables
 
 CREATE TABLE DEPARTMENT(
-    PRIMARY KEY idDepartment INT,
-    name VARCHAR NOT NULL,
+    idDepartment INT PRIMARY KEY,
+    name VARCHAR NOT NULL
 );
 
 CREATE TABLE CLIENT(
-    PRIMARY KEY NIF INT,
+    NIF INT PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     email VARCHAR(50) NOT NULL,
     phone VARCHAR(20) NOT NULL,
-    address VARCHAR(50) NOT NULL,
+    address VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE EMPLOYEE(
-    PRIMARY KEY NIF INT, 
+    NIF INT PRIMARY KEY, 
     name VARCHAR(50) NOT NULL,
     address VARCHAR(50) NOT NULL,
     work_shift VARCHAR NOT NULL, 
     manager BOOLEAN DEFAULT FALSE,
     department INT,
-    FOREIGN KEY (department) REFERENCES DEPARTMENT(idDepartment),
-)
+    FOREIGN KEY (department) REFERENCES DEPARTMENT(idDepartment)
+);
 
 CREATE TABLE CUSTOMERSERVICE(
-    PRIMARY KEY idCustomerService INT, 
-    urgency INT CHECK (5 > urgency > 0), 
+    idCustomerService INT PRIMARY KEY, 
+    urgency INT CHECK (urgency >= 0 AND urgency <= 5), 
     description TEXT, 
     client INT,
-    FOREIGN KEY (client) REFERENCES CLIENT(NIF),
+    FOREIGN KEY (client) REFERENCES CLIENT(NIF)
 );
 
 CREATE TABLE PROVIDER(
-    PRIMARY KEY idProvider INT,
+    idProvider INT PRIMARY KEY,
     address VARCHAR(50),
     phone VARCHAR(20) NOT NULL, 
     email VARCHAR(50) NOT NULL,
-    name VARCHAR,
+    name VARCHAR
 );
 
 CREATE TABLE PRODUCT(
-    PRIMARY KEY idProduct INT, 
+    idProduct INT PRIMARY KEY, 
     price FLOAT CHECK (price > 0.0),
     stock INT CHECK (stock > 0),
     material VARCHAR,
@@ -60,61 +62,63 @@ CREATE TABLE PRODUCT(
     department INT, 
     provider INT,
     FOREIGN KEY (department) REFERENCES DEPARTMENT(idDepartment),
-    FOREIGN KEY (provider) REFERENCES PROVIDER(idProvider),
+    FOREIGN KEY (provider) REFERENCES PROVIDER(idProvider)
 );
 
 CREATE TABLE SELL(
-    PRIMARY KEY idSell INT,
+    idSell INT PRIMARY KEY,
     price FLOAT CHECK (price > 0.0), 
     date DATETIME NOT NULL, 
     payment_format VARCHAR NOT NULL,
     idClient INT,
     idProduct INT,
-    FOREIGN KEY (client) REFERENCES CLIENT(idClient),
-    FOREIGN KEY (product) REFERENCES PRODUCT(idProduct),
+    FOREIGN KEY (idClient) REFERENCES CLIENT(NIF),
+    FOREIGN KEY (idProduct) REFERENCES PRODUCT(idProduct)
 );
 
 CREATE TABLE CLIENTSELLPRODUCT(
     client INT,
     sell INT,
     product INT,
-    FOREIGN KEY (client) REFERENCES CLIENT(idClient), 
+    PRIMARY KEY (client, sell, product),
+    FOREIGN KEY (client) REFERENCES CLIENT(NIF), 
     FOREIGN KEY (sell) REFERENCES SELL(idSell), 
-    FOREIGN KEY (product) REFERENCES PRODUCT(idProduct),
+    FOREIGN KEY (product) REFERENCES PRODUCT(idProduct)
 );
 
 CREATE TABLE AVALIATION(
-    PRIMARY KEY idAvaliation INT,
-    stars INT CHECK (5 > stars > 0),
+    idAvaliation INT PRIMARY KEY,
+    stars INT CHECK (stars >= 0 AND stars <= 5),
     description TEXT,
     date DATETIME NOT NULL, 
     product INT,
     client INT,
     FOREIGN KEY (product) REFERENCES PRODUCT(idProduct),
-    FOREIGN KEY (client) REFERENCES CLIENT(idClient),
+    FOREIGN KEY (client) REFERENCES CLIENT(NIF)
 );
 
 CREATE TABLE CLIENTAVALIATIONPRODUCT(
     client INT,
     avaliation INT,
     product INT,
-    FOREIGN KEY (client) REFERENCES CLIENT(idClient),
-    FOREIGN KEY (AVALIATION) REFERENCES AVALIATION(idAvaliation),
-    FOREIGN KEY (product) REFERENCES PRODUCT(idProduct),
+    PRIMARY KEY (client, avaliation, product),
+    FOREIGN KEY (client) REFERENCES CLIENT(NIF),
+    FOREIGN KEY (avaliation) REFERENCES AVALIATION(idAvaliation),
+    FOREIGN KEY (product) REFERENCES PRODUCT(idProduct)
 );
 
 CREATE TABLE MARKETCAMPAIGN(
-    PRIMARY KEY (idMarketCampaign) INT, 
-    discount FLOAT CHECK (1.0 > discount AND discount > 0.0),
+    idMarketCampaign INT PRIMARY KEY, 
+    discount FLOAT CHECK (discount > 0.0 AND discount < 1.0),
     channel VARCHAR,
     product INT,
     FOREIGN KEY (product) REFERENCES PRODUCT(idProduct)
 );
 
 CREATE TABLE EXCHANGE(
-    PRIMARY KEY (idExchange) INT,
+    idExchange INT PRIMARY KEY,
     type INT,
     date DATETIME NOT NULL,
     product INT,
-    FOREIGN KEY (product) REFERENCES PRODUCT(idProduct),
+    FOREIGN KEY (product) REFERENCES PRODUCT(idProduct)
 );
